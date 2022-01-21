@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import environ
 from pathlib import Path
+import os
 
 # environ settings
 env = environ.Env()
@@ -31,6 +32,7 @@ DEBUG = env.bool('DJANGO_DEBUG', default=False)
 
 ALLOWED_HOSTS = tuple(env.list('ALLOWED_HOSTS', default=[]))
 
+"""
 # Configuration Django JET
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 JET_SIDE_MENU_COMPACT = True
@@ -67,19 +69,21 @@ JET_THEMES = [
         'title': 'Light Gray'
     }
 ]
-
+"""
 
 # Application definition
 
 INSTALLED_APPS = [
-    'jet.dashboard',
-    'jet',
+    #'jet.dashboard',
+    #'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.libros',
+    'apps.autores',
 ]
 
 MIDDLEWARE = [
@@ -97,7 +101,7 @@ ROOT_URLCONF = 'biblioteca.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -116,6 +120,7 @@ WSGI_APPLICATION = 'biblioteca.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -124,6 +129,14 @@ DATABASES = {
         'PASSWORD': env.str('POSTGRES_PASSWORD'),
         'HOST': env.str('DB_HOST'),
         'PORT': env.int('DB_PORT')
+    }
+}
+"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -150,7 +163,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'America/Mexico_City'
 
@@ -164,5 +178,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_ROOT = '/code/static/'
-STATIC_URL = '/static/'
+STATIC_URL = '/code/static/'
+STATIC_ROOT = BASE_DIR / 'code/static/'
+
+# Para guardar los archivos multimedia (imagenes, sonidos, videos, docs, etc)
+MEDIA_URL = '/code/media/'
+MEDIA_ROOT = BASE_DIR / 'code/media/'
