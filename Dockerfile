@@ -2,7 +2,7 @@ FROM python:3.9.9
 
 LABEL maintainer="JoseRazo"
 
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED = 1
 
 RUN mkdir /code
 
